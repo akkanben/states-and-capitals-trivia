@@ -187,6 +187,9 @@ public class StatesAndCapitals
         // Use collect(groupingBy()) and counting()
 
         Map<String, Long> numberOfStateCapitalsByTimeZone = null;
+        numberOfStateCapitalsByTimeZone = states.stream().collect(groupingBy(element -> {
+            return element.getCapital().getTimeZone();
+        }, counting()));
 
         testResults.put("A14", StatesAndCapitalsCheck.adv14(numberOfStateCapitalsByTimeZone));
 
