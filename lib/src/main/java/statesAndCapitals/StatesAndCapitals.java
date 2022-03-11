@@ -278,6 +278,12 @@ public class StatesAndCapitals
         // Use min(), comparing(), and orElse()
 
         StateInfo stateWithLeastDistanceBetweenHighAndLowPoints = null;
+        stateWithLeastDistanceBetweenHighAndLowPoints = states.stream().min((a,b) -> {
+            return a.getHighestElevationInFeet() - a.getLowestElevationInFeet()
+                    < b.getHighestElevationInFeet() - b.getLowestElevationInFeet()
+                    ? 0 : 1;
+        }).orElseThrow();
+        System.out.println(stateWithLeastDistanceBetweenHighAndLowPoints);
 
         testResults.put("A33", StatesAndCapitalsCheck.adv33(stateWithLeastDistanceBetweenHighAndLowPoints));
 
@@ -287,6 +293,7 @@ public class StatesAndCapitals
         // Use flatMap() and Stream.of() (for the pairs)
 
         List<String> allStateAndCapitalNames = null;
+        allStateAndCapitalNames = Stream.of(states.stream().flatMap(element -> element.getStateName()).stream(), states.stream().flatMap(element -> element.getCapital()).stream()).toList();
 
         testResults.put("A41", StatesAndCapitalsCheck.adv41(allStateAndCapitalNames));
 
