@@ -228,6 +228,11 @@ public class StatesAndCapitals
         // Use distinct(), map(), and filter()
 
         List<String> allDistinctStateBirdsMinusMockingbirds = null;
+        allDistinctStateBirdsMinusMockingbirds = states.stream().filter(element -> {
+            return !element.getStateBird().contains("mockingbird");
+        }).map(element -> {
+            return element.getStateBird().toString();
+        }).distinct().toList();
 
         testResults.put("A24", StatesAndCapitalsCheck.adv24(allDistinctStateBirdsMinusMockingbirds));
 
@@ -236,6 +241,7 @@ public class StatesAndCapitals
         // PS: Don't use count(). IntelliJ will warn you but I want you to see how counting() works.
 
         Long numberOfDistinctStateBirds = null;
+        numberOfDistinctStateBirds = states.stream().map(element -> element.getStateBird().toString()).distinct().collect(counting());
 
         testResults.put("A25", StatesAndCapitalsCheck.adv25(numberOfDistinctStateBirds));
 
