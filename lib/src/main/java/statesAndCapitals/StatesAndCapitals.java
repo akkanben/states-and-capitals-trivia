@@ -331,6 +331,11 @@ public class StatesAndCapitals
         // Use flatMap(), filter()
 
         List<String> allDenonymsThatDoNotContainStateName = null;
+        allDenonymsThatDoNotContainStateName = states.stream().map(element -> {
+            return element.getDenonyms().stream().filter(denonym -> {
+                return !denonym.contains(element.getStateName());
+            });
+        }).flatMap(e -> e).toList();
 
         testResults.put("E1", StatesAndCapitalsCheck.expert1(allDenonymsThatDoNotContainStateName));
 
