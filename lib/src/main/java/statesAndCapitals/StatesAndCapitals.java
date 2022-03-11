@@ -218,6 +218,9 @@ public class StatesAndCapitals
         // Use distinct() and map()
 
         List<String> allDistinctStateBirds = null;
+        allDistinctStateBirds = states.stream().map(element -> {
+            return element.getStateBird();
+        }).distinct().toList();
 
         testResults.put("A23", StatesAndCapitalsCheck.adv23(allDistinctStateBirds));
 
