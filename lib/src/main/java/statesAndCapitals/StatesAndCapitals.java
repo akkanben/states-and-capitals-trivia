@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -165,6 +166,9 @@ public class StatesAndCapitals
         // Or use mapToInt() and sum()
 
         Integer totalYearlyPrecipitationAcrossStateCapitals = null;
+        totalYearlyPrecipitationAcrossStateCapitals = states.stream().collect(summingInt(element -> {
+            return element.getCapital().getAverageYearlyPrecipitationInInches();
+        }));
 
         testResults.put("A12", StatesAndCapitalsCheck.adv12(totalYearlyPrecipitationAcrossStateCapitals));
 
@@ -172,6 +176,10 @@ public class StatesAndCapitals
         // Use collect(groupingBy()) and counting()
 
         Map<String, Long> numberOfStatesByTimeZone = null;
+        numberOfStatesByTimeZone = states.stream().collect(groupingBy(element -> {
+            return element.getTimeZones().toString();
+        }, counting()));
+        System.out.println(numberOfStatesByTimeZone);
 
         testResults.put("A13", StatesAndCapitalsCheck.adv13(numberOfStatesByTimeZone));
 
