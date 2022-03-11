@@ -179,7 +179,6 @@ public class StatesAndCapitals
         numberOfStatesByTimeZone = states.stream().collect(groupingBy(element -> {
             return element.getTimeZones().toString();
         }, counting()));
-        System.out.println(numberOfStatesByTimeZone);
 
         testResults.put("A13", StatesAndCapitalsCheck.adv13(numberOfStatesByTimeZone));
 
@@ -199,6 +198,9 @@ public class StatesAndCapitals
         // Use sorted() and map()
 
         List<String> stateTreesSortedAscending = null;
+        stateTreesSortedAscending = states.stream().map(element -> {
+            return element.getStateTree().toString();
+        }).sorted().toList();
 
         testResults.put("A21", StatesAndCapitalsCheck.adv21(stateTreesSortedAscending));
 
