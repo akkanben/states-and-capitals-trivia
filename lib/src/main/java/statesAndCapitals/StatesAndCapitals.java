@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -294,7 +295,9 @@ public class StatesAndCapitals
         List<String> allStateAndCapitalNames = null;
 
         // My original answer:
-        allStateAndCapitalNames = states.stream().map(element -> element.getStateName() + ", " + element.getCapital().getCapitalName().toString()).toList();
+        allStateAndCapitalNames = states.stream().map(element -> {
+            return element.getStateName() + ", " + element.getCapital().getCapitalName().toString();
+        }).toList();
         // Ed showed how this worked in Class today so it's not really my answer:
         //allStateAndCapitalNames = states.stream().flatMap(element -> Stream.of(element.getStateName(), element.getCapital().getCapitalName())).toList();
 
@@ -305,12 +308,19 @@ public class StatesAndCapitals
 
         List<List<String>> allStateAndCapitalNamesTogetherAsLists = null;
 
+        allStateAndCapitalNamesTogetherAsLists = states.stream()
+                .map(element -> Stream.of(element.getStateName(), element.getCapital().getCapitalName()).toList())
+                .toList();
+
         testResults.put("A42", StatesAndCapitalsCheck.adv42(allStateAndCapitalNamesTogetherAsLists));
 
         // A43. Submit all state and capital names together, but group each state as a key, and each capital as a value, in a Map
         // Use collect(toMap())
 
         Map<String, String> stateNameToCapitalNamesMap = null;
+        stateNameToCapitalNamesMap = states.stream().collect(Collectors.toMap(StateInfo::getStateName, element -> {
+            return element.getCapital().getCapitalName();
+        }));
 
         testResults.put("A43", StatesAndCapitalsCheck.adv43(stateNameToCapitalNamesMap));
 
