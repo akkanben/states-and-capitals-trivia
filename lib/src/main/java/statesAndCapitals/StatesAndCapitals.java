@@ -266,6 +266,11 @@ public class StatesAndCapitals
         // Can use map() and LocalDate::compareTo
 
         LocalDate earliestDateStateEnteredUnion = null;
+        earliestDateStateEnteredUnion = states.stream().map(element -> {
+            return element.getDateAdmittedToUnion();
+        }).min((a, b) -> {
+            return a.compareTo(b);
+        }).orElseThrow();
 
         testResults.put("A32", StatesAndCapitalsCheck.adv32(earliestDateStateEnteredUnion));
 
