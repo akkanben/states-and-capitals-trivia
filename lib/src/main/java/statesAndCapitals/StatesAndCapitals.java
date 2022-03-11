@@ -66,6 +66,7 @@ public class StatesAndCapitals
         // Use limit()
 
         List<StateInfo> firstFiveStates = null;
+        firstFiveStates = states.stream().limit(5).toList();
 
         testResults.put("B1", StatesAndCapitalsCheck.basic1(firstFiveStates));
 
@@ -73,6 +74,7 @@ public class StatesAndCapitals
         // Use skip()
 
         List<StateInfo> lastFiveStates = null;
+        lastFiveStates = states.stream().skip(45).toList();
 
         testResults.put("B2", StatesAndCapitalsCheck.basic2(lastFiveStates));
 
@@ -80,6 +82,7 @@ public class StatesAndCapitals
         // Use limit()
 
         List<Integer> firstFiveNumbers = IntStream.range(1, 20).boxed().collect(toList());
+        firstFiveNumbers = firstFiveNumbers.stream().limit(5).toList();
 
         testResults.put("B3", StatesAndCapitalsCheck.basic3(firstFiveNumbers));
 
@@ -87,6 +90,7 @@ public class StatesAndCapitals
         // Use skip()
 
         List<Integer> lastFiveNumbers = Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20).collect(toList());
+        lastFiveNumbers = lastFiveNumbers.stream().skip(15).toList();
 
         testResults.put("B4", StatesAndCapitalsCheck.basic4(lastFiveNumbers));
 
@@ -95,6 +99,7 @@ public class StatesAndCapitals
         // PS: Don't use states.size(). It's easier and IntelliJ will even warn you not to do things this way. But I want you to understand how to use count() (or counting()).
 
         Long statesNumber = null;
+        statesNumber = states.stream().count();
 
         testResults.put("B5", StatesAndCapitalsCheck.basic5(statesNumber));
 
@@ -105,6 +110,7 @@ public class StatesAndCapitals
         // Can use filter()
 
         StateInfo cardinalState = null;
+        cardinalState = states.stream().filter(element -> element.getStateBird().equals("cardinal")).findAny().orElseThrow();
 
         testResults.put("I1", StatesAndCapitalsCheck.int1(cardinalState));
 
@@ -112,6 +118,7 @@ public class StatesAndCapitals
         // Use anyMatch()
 
         Boolean isAnyStateLessThan0Elevation = null;
+        isAnyStateLessThan0Elevation = states.stream().anyMatch(element -> element.getLowestElevationInFeet() < 0);
 
         testResults.put("I2", StatesAndCapitalsCheck.int2(isAnyStateLessThan0Elevation));
 
@@ -119,6 +126,7 @@ public class StatesAndCapitals
         // Use anyMatch()
 
         Boolean isAnyStateGreaterThan21000Elevation = null;
+        isAnyStateGreaterThan21000Elevation = states.stream().anyMatch(element -> element.getHighestElevationInFeet() > 21000);
 
         testResults.put("I3", StatesAndCapitalsCheck.int3(isAnyStateGreaterThan21000Elevation));
 
@@ -126,6 +134,7 @@ public class StatesAndCapitals
         // Use allMatch()
 
         Boolean doAllStatesHaveAnAnthem = null;
+        doAllStatesHaveAnAnthem = states.stream().allMatch(element -> element.getStateAnthem() != null);
 
         testResults.put("I4", StatesAndCapitalsCheck.int4(doAllStatesHaveAnAnthem));
 
@@ -134,6 +143,7 @@ public class StatesAndCapitals
         // Can use String.split()
 
         Boolean doNoStatesHaveAOneWordMotto = null;
+        doNoStatesHaveAOneWordMotto = states.stream().noneMatch(element -> element.getStateMotto().contains(" "));
 
         testResults.put("I5", StatesAndCapitalsCheck.int5(doNoStatesHaveAOneWordMotto));
 
