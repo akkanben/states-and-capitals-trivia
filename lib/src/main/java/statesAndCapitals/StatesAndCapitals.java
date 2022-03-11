@@ -292,12 +292,11 @@ public class StatesAndCapitals
         // Use flatMap() and Stream.of() (for the pairs)
 
         List<String> allStateAndCapitalNames = null;
-        // This uses flatMap() and Stream.of()
-        //allStateAndCapitalNames = Stream.of(states.stream().map(element -> element.getStateName() + ", " + element.getCapital().getCapitalName().toString())).flatMap(element -> element).toList();
-        // This doesn't user either
-        // Maybe I'm missing something? Can I zip these streams using some other method I wonder?
+
+        // My original answer:
         allStateAndCapitalNames = states.stream().map(element -> element.getStateName() + ", " + element.getCapital().getCapitalName().toString()).toList();
-        System.out.println(allStateAndCapitalNames);
+        // Ed showed how this worked in Class today so it's not really my answer:
+        //allStateAndCapitalNames = states.stream().flatMap(element -> Stream.of(element.getStateName(), element.getCapital().getCapitalName())).toList();
 
         testResults.put("A41", StatesAndCapitalsCheck.adv41(allStateAndCapitalNames));
 
