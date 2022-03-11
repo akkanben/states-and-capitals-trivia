@@ -253,6 +253,12 @@ public class StatesAndCapitals
 
         Integer maxStateElevation = null;
 
+        maxStateElevation = states.stream().map(element -> {
+            return element.getHighestElevationInFeet();
+        }).max((a, b) -> {
+            return a.compareTo(b);
+        }).orElseThrow();
+
         testResults.put("A31", StatesAndCapitalsCheck.adv31(maxStateElevation));
 
         // A32. Submit the earliest date a state entered the union
