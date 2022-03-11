@@ -208,6 +208,9 @@ public class StatesAndCapitals
         // Use collect(joining()) and map()
 
         String allStateNamesSemicolonDelimited = null;
+        allStateNamesSemicolonDelimited = states.stream().map(element -> {
+            return element.getStateName().toString();
+        }).collect(joining("; "));
 
         testResults.put("A22", StatesAndCapitalsCheck.adv22(allStateNamesSemicolonDelimited));
 
