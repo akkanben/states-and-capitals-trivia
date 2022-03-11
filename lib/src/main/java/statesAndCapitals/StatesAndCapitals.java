@@ -153,6 +153,10 @@ public class StatesAndCapitals
         // Use collect(averagingDouble())
 
         Double averageYearlyPrecipitationAcrossStateCapitals = null;
+        averageYearlyPrecipitationAcrossStateCapitals = states.stream().collect(averagingDouble(element ->  {
+            return element.getCapital().getAverageYearlyPrecipitationInInches();
+        })
+        );
 
         testResults.put("A11", StatesAndCapitalsCheck.adv11(averageYearlyPrecipitationAcrossStateCapitals));
 
