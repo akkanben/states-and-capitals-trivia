@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -283,7 +284,6 @@ public class StatesAndCapitals
                     < b.getHighestElevationInFeet() - b.getLowestElevationInFeet()
                     ? 0 : 1;
         }).orElseThrow();
-        System.out.println(stateWithLeastDistanceBetweenHighAndLowPoints);
 
         testResults.put("A33", StatesAndCapitalsCheck.adv33(stateWithLeastDistanceBetweenHighAndLowPoints));
 
@@ -293,7 +293,13 @@ public class StatesAndCapitals
         // Use flatMap() and Stream.of() (for the pairs)
 
         List<String> allStateAndCapitalNames = null;
-        allStateAndCapitalNames = Stream.of(states.stream().flatMap(element -> element.getStateName()).stream(), states.stream().flatMap(element -> element.getCapital()).stream()).toList();
+
+        // My original answer:
+        allStateAndCapitalNames = states.stream().map(element -> {
+            return element.getStateName() + ", " + element.getCapital().getCapitalName().toString();
+        }).toList();
+        // Ed showed how this worked in Class today so it's not really my answer:
+        //allStateAndCapitalNames = states.stream().flatMap(element -> Stream.of(element.getStateName(), element.getCapital().getCapitalName())).toList();
 
         testResults.put("A41", StatesAndCapitalsCheck.adv41(allStateAndCapitalNames));
 
@@ -302,12 +308,19 @@ public class StatesAndCapitals
 
         List<List<String>> allStateAndCapitalNamesTogetherAsLists = null;
 
+        allStateAndCapitalNamesTogetherAsLists = states.stream()
+                .map(element -> Stream.of(element.getStateName(), element.getCapital().getCapitalName()).toList())
+                .toList();
+
         testResults.put("A42", StatesAndCapitalsCheck.adv42(allStateAndCapitalNamesTogetherAsLists));
 
         // A43. Submit all state and capital names together, but group each state as a key, and each capital as a value, in a Map
         // Use collect(toMap())
 
         Map<String, String> stateNameToCapitalNamesMap = null;
+        stateNameToCapitalNamesMap = states.stream().collect(Collectors.toMap(StateInfo::getStateName, element -> {
+            return element.getCapital().getCapitalName();
+        }));
 
         testResults.put("A43", StatesAndCapitalsCheck.adv43(stateNameToCapitalNamesMap));
 
@@ -318,6 +331,11 @@ public class StatesAndCapitals
         // Use flatMap(), filter()
 
         List<String> allDenonymsThatDoNotContainStateName = null;
+        allDenonymsThatDoNotContainStateName = states.stream().map(element -> {
+            return element.getDenonyms().stream().filter(denonym -> {
+                return !denonym.contains(element.getStateName());
+            });
+        }).flatMap(e -> e).toList();
 
         testResults.put("E1", StatesAndCapitalsCheck.expert1(allDenonymsThatDoNotContainStateName));
 
@@ -326,6 +344,13 @@ public class StatesAndCapitals
         // PS: Don't cheat by using an intermediate data structure for Honolulu!
 
         Long totalNumberOfHonoluluSisterCitiesStartingWithCa = null;
+        totalNumberOfHonoluluSisterCitiesStartingWithCa = states.stream().filter(element -> {
+            return element.getStateName().equals("Hawaii");
+        }).flatMap(element -> {
+            return element.getCapital().getSisterCities().stream();
+        }).filter(element -> {
+            return element.substring(0, 2).equals("Ca");
+        }).count();
 
         testResults.put("E2", StatesAndCapitalsCheck.expert2(totalNumberOfHonoluluSisterCitiesStartingWithCa));
 
