@@ -344,6 +344,13 @@ public class StatesAndCapitals
         // PS: Don't cheat by using an intermediate data structure for Honolulu!
 
         Long totalNumberOfHonoluluSisterCitiesStartingWithCa = null;
+        totalNumberOfHonoluluSisterCitiesStartingWithCa = states.stream().filter(element -> {
+            return element.getStateName().equals("Hawaii");
+        }).flatMap(element -> {
+            return element.getCapital().getSisterCities().stream();
+        }).filter(element -> {
+            return element.substring(0, 2).equals("Ca");
+        }).count();
 
         testResults.put("E2", StatesAndCapitalsCheck.expert2(totalNumberOfHonoluluSisterCitiesStartingWithCa));
 
